@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_centerVertical="true"
+    android:padding="@android:dimen/app_icon_size">
+
+    <!-- Button "H-1" -->
+    <Button
+        android:id="@+id/buttonHMinus1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="H-1" />
+
+    <!-- Button "H-0" -->
+    <Button
+        android:id="@+id/buttonHZero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="H-0" />
+
+    <!-- Button "H+1" -->
+    <Button
+        android:id="@+id/buttonHPlus1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="H+1" />
+
+    <!-- Button "H+2" -->
+    <Button
+        android:id="@+id/buttonHPlus2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="H+2" />
+
+    <!-- Button "H+3" -->
+    <Button
+        android:id="@+id/buttonHPlus3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="H+3" />
+
+    <!-- Button "Lunas" -->
+    <Button
+        android:id="@+id/buttonLunas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lunas" />
+
+    <Button
+        android:id="@+id/buttonBayar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bayar" />
+
+</LinearLayout>

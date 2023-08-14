@@ -1,0 +1,5 @@
+{
+	"android.app.extra.PROVISIONING_DEVICE_ADMIN_COMPONENT_NAME": "com.example.vinstallment_server/com.example.vinstallment_server.MyDeviceAdminReceiver",
+	"android.app.extra.PROVISIONING_DEVICE_ADMIN_SIGNATURE_CHECKSUM": "A1CEC02644D13C74FD64BC08A04CAA3D682249DAA0B4C5F30E518414BC0A6AC2",
+	"android.app.extra.PROVISIONING_DEVICE_ADMIN_PACKAGE_DOWNLOAD_LOCATION": "https://dl3.pushbulletusercontent.com/nut6AwDpx73oferNwLVXB1rceueQQtpI/app-release.apk"
+}
