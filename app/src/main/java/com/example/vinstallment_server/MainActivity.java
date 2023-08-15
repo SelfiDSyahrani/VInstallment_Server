@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-                    Locale locale = Locale.US;
+                    Locale locale = new Locale("id", "ID");
                     int result = textToSpeech.setLanguage(locale);
                     HashMap<String, String> params = new HashMap<>();
                     params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "utteranceId");
