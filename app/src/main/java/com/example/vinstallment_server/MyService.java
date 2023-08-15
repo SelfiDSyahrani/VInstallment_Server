@@ -137,7 +137,13 @@ public class MyService extends Service {
 
         @Override
         public void Lunas() throws RemoteException {
+            DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            Context context = getApplicationContext();
+            ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
 
+            if (dpm.isAdminActive(adminComponent)) {
+                dpm.removeActiveAdmin(adminComponent);
+            }
         }
 
         private void playTextToSpeech(Context context, String textToSpeak) {

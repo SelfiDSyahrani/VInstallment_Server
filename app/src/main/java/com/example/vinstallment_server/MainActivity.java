@@ -1,5 +1,7 @@
 package com.example.vinstallment_server;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
@@ -12,15 +14,26 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-
+    private TextToSpeech textToSpeech;
     private IMyAidlInterface iMyAidlService;
     private Button btnMinSatu, btnMinNol, btnPlusSatu, btnPlusDua, btnPlusTiga, btnBayar, btnLunas;
 
@@ -50,11 +63,11 @@ public class MainActivity extends AppCompatActivity {
         btnLunas = findViewById(R.id.buttonLunas);
 
         btnMinSatu.setOnClickListener(v -> {
-            sendNotification("Besok adalah jatuh tempo pembayaran cicilan. Pastikan untuk melakukan pembayaran tepat waktu. Terima kasih!");
+            sendNotification("Besok adalah jatuh tempo pembayaran cicilan. Pastikan untuk melakukan pembayaran tepat waktu. Terima kasih!", true);
         });
 
         btnMinNol.setOnClickListener(v -> {
-            sendNotification("Hari ini adalah jatuh tempo pembayaran cicilan. Harap segera lakukan pembayaran, Abaikan pesan ini jika anda sudah membayar. Terima kasih!");
+            sendNotification("Hari ini adalah jatuh tempo pembayaran cicilan. Harap segera lakukan pembayaran, Abaikan pesan ini jika anda sudah membayar. Terima kasih!", true);
         });
 
         btnPlusSatu.setOnClickListener(v -> {
@@ -63,36 +76,86 @@ public class MainActivity extends AppCompatActivity {
             ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
 
             dpm.setCameraDisabled(adminComponent, true);
+            Toast.makeText(getApplicationContext(), "Akses kamera anda dinonaktifkan", Toast.LENGTH_SHORT).show();
 
-            showPopup("Akses kamera dimatikan, segera lakukan pembayaran, untuk mengaktifkan akses kembali.");
+//            showPopup("Akses kamera dimatikan, segera lakukan pembayaran, untuk mengaktifkan akses kembali.");
         });
-        btnBayar.setOnClickListener(v -> {
+
+        btnPlusDua.setOnClickListener(v -> {
             DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
             Context context = getApplicationContext();
             ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
 
+            suspendAllAppsExceptAllowedApps(dpm, adminComponent);
+            Toast.makeText(getApplicationContext(), "Beberapa aplikasi anda dinonaktifkan", Toast.LENGTH_SHORT).show();
+        });
+
+        btnPlusTiga.setOnClickListener(v -> {
+            Context context = getApplicationContext();
+            playTextToSpeech(context, "Silahkan bayar tagihan anda");
+        });
+
+        btnBayar.setOnClickListener(v -> {
+            DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            Context context = getApplicationContext();
+            ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
             dpm.setCameraDisabled(adminComponent, false);
+            unsuspendApps(dpm, adminComponent);
+            Toast.makeText(getApplicationContext(), "Akses aplikasi anda kembali diaktifkan", Toast.LENGTH_SHORT).show();
+
+        });
+
+        btnLunas.setOnClickListener(v -> {
+            DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            Context context = getApplicationContext();
+            ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
+
+            unsuspendApps(dpm, adminComponent);
+            Toast.makeText(getApplicationContext(), "Akses aplikasi anda kembali diaktifkan", Toast.LENGTH_SHORT).show();
+
+            if (dpm.isAdminActive(adminComponent)) {
+                dpm.removeActiveAdmin(adminComponent);
+//                Toast.makeText(getApplicationContext(), "true", Toast.LENGTH_SHORT).show();
+            }
+
+            Intent uninstallIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
+            uninstallIntent.setData(Uri.parse("package:com.example.vinstallment_server"));
+            startActivity(uninstallIntent);
         });
 
 //        Intent intent = new Intent("MyService");
 //        intent.setPackage("com.example.vinstallment_server");
 //        bindService(intent, mConnection, BIND_AUTO_CREATE);
     }
+
+    private void unsuspendApps(DevicePolicyManager dpm, ComponentName adminComponent) {
+        List<String> exemptPackages = Arrays.asList("com.android.settings", "com.android.contacts", "com.android.phone");
+
+        List<PackageInfo> installedPackages = getPackageManager().getInstalledPackages(PackageManager.GET_ACTIVITIES);
+
+        for (PackageInfo packageInfo : installedPackages) {
+            String packageName = packageInfo.packageName;
+
+            if (!exemptPackages.contains(packageName)) {
+                dpm.setPackagesSuspended(adminComponent, new String[]{packageName}, false); // Unsuspend the app
+            }
+        }
+    }
+
     private void showPopup(String message) {
-        // Buat dialog atau AlertDialog untuk menampilkan popup
         Context context = getApplicationContext();
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Peringatan");
         builder.setMessage(message);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                // Aksi yang dilakukan ketika pengguna menekan tombol OK
+                sendNotification(message, false);
             }
         });
         builder.show();
     }
 
-    private void sendNotification(String contentText) {
+    private void sendNotification(String contentText, boolean autocancel) {
         Context context = getApplicationContext();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -110,12 +173,43 @@ public class MainActivity extends AppCompatActivity {
                 .setSmallIcon(android.R.drawable.sym_def_app_icon)
                 .setContentTitle("VInstallment")
                 .setContentText("Pemberitahuan: " + contentText)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(autocancel);
 
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
         notificationManager.notify(1, builder.build());
     }
 
+    private void suspendAllAppsExceptAllowedApps(DevicePolicyManager dpm, ComponentName adminComponent) {
+
+        List<String> exemptPackages = Arrays.asList("com.android.settings", "com.android.contacts", "com.android.phone");
+
+        List<PackageInfo> installedPackages = getPackageManager().getInstalledPackages(0);
+        Log.d("suspend", "suspendAllAppsExceptAllowedApps: " + installedPackages);
+        for (PackageInfo packageInfo : installedPackages) {
+            String packageName = packageInfo.packageName;
+
+            if (!exemptPackages.contains(packageName)) {
+                dpm.setPackagesSuspended(adminComponent, new String[]{packageName}, true); // Suspend the app
+            }
+        }
+
+    }
+
+    private void playTextToSpeech(Context context, String textToSpeak) {
+        textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS) {
+                    Locale locale = Locale.US;
+                    int result = textToSpeech.setLanguage(locale);
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "utteranceId");
+                    textToSpeech.speak(textToSpeak,TextToSpeech.QUEUE_FLUSH, params);
+                }
+            }
+        });
+    }
 //    private void executeMethodSafely(RemoteMethodExecutor executor) {
 //        if (iMyAidlService != null) {
 //            try {

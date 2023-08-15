@@ -21,6 +21,12 @@ public class MyDeviceAdminReceiver extends DeviceAdminReceiver {
     public void onReceive(@NonNull Context context, @NonNull Intent intent) {
         super.onReceive(context, intent);
     }
+
+    @Override
+    public void onDisabled(@NonNull Context context, @NonNull Intent intent) {
+        super.onDisabled(context, intent);
+        Toast.makeText(context.getApplicationContext(), "berhasil diuninstall", Toast.LENGTH_SHORT).show();
+    }
 }
 
 
