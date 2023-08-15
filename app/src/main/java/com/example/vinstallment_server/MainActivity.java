@@ -115,13 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
             if (dpm.isAdminActive(adminComponent)) {
 //                dpm.removeActiveAdmin(adminComponent);
-                dpm.clearDeviceOwnerApp(context.getPackageName());
+//                dpm.clearDeviceOwnerApp(context.getPackageName());
 //                test dengan wipe data only
 //                Toast.makeText(getApplicationContext(), "true", Toast.LENGTH_SHORT).show();
             }
-            Intent uninstallIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
-            uninstallIntent.setData(Uri.parse("package:com.example.vinstallment_server"));
-            startActivity(uninstallIntent);
+
         });
 
 //        Intent intent = new Intent("MyService");
