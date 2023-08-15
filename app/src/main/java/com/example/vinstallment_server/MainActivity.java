@@ -114,10 +114,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Akses aplikasi anda kembali diaktifkan", Toast.LENGTH_SHORT).show();
 
             if (dpm.isAdminActive(adminComponent)) {
-                dpm.removeActiveAdmin(adminComponent);
+//                dpm.removeActiveAdmin(adminComponent);
+                dpm.clearDeviceOwnerApp(context.getPackageName());
+//                test dengan wipe data only
 //                Toast.makeText(getApplicationContext(), "true", Toast.LENGTH_SHORT).show();
             }
-
             Intent uninstallIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
             uninstallIntent.setData(Uri.parse("package:com.example.vinstallment_server"));
             startActivity(uninstallIntent);
