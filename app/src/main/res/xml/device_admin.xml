@@ -1,38 +1,14 @@
 <device-admin>
+    <support-transfer-ownership/>
     <uses-policies>
-        <!-- Kebijakan untuk mengunci perangkat -->
-        <force-lock />
-
-        <!-- Kebijakan untuk menghapus data perangkat -->
-        <wipe-data />
-
-        <!-- Kebijakan untuk mematikan kamera -->
-        <disable-camera />
-
-        <!-- Kebijakan untuk mengatur durasi kadaluwarsa kata sandi -->
-        <expire-password />
-
-        <!-- Kebijakan untuk mematikan aplikasi kamera -->
-        <set-camera-disabled>
-            <whitelist>
-                <item>com.whatsapp</item>
-                <item>com.android.phone</item>
-                <item>com.android.settings</item>
-                <item>com.android.contacts</item>
-            </whitelist>
-        </set-camera-disabled>
-
-        <!-- Kebijakan untuk menonaktifkan akses aplikasi tertentu -->
-        <package-suspend>
-            <whitelist>
-                <item>com.whatsapp</item>
-                <item>com.android.phone</item>
-                <item>com.android.settings</item>
-                <item>com.android.contacts</item>
-            </whitelist>
-        </package-suspend>
-
-
-
+        <limit-password/>
+        <watch-login/>
+        <reset-password/>
+        <force-lock/>
+        <wipe-data/>
+        <expire-password/>
+        <encrypted-storage/>
+        <disable-camera/>
+        <disable-keyguard-features/>
     </uses-policies>
 </device-admin>

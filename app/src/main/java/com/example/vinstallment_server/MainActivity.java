@@ -115,8 +115,9 @@ public class MainActivity extends AppCompatActivity {
 
             if (dpm.isAdminActive(adminComponent)) {
 //                dpm.removeActiveAdmin(adminComponent);
-//                dpm.clearDeviceOwnerApp(context.getPackageName());
-//                test dengan wipe data only
+                dpm.clearDeviceOwnerApp(context.getPackageName());
+//                dpm.wipeData(0); // normal reset factory
+//                dpm.wipeData(DevicePolicyManager.WIPE_RESET_PROTECTION_DATA); // reset factory + wipe factory reset protection
 //                Toast.makeText(getApplicationContext(), "true", Toast.LENGTH_SHORT).show();
             }
 

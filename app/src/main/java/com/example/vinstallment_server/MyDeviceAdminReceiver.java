@@ -11,13 +11,6 @@ import androidx.annotation.NonNull;
 public class MyDeviceAdminReceiver extends DeviceAdminReceiver {
 
     @Override
-    public void onProfileProvisioningComplete(Context context, Intent intent) {
-         Intent ActivityIntent = new Intent(context, FinalizedActivity.class);
-         ActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-         context.startActivity(ActivityIntent);
-    }
-
-    @Override
     public void onReceive(@NonNull Context context, @NonNull Intent intent) {
         super.onReceive(context, intent);
     }

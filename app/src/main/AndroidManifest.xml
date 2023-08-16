@@ -12,7 +12,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.REQUEST_PASSWORD_COMPLEXITY"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -44,15 +45,11 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LEANBACK_LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <activity
             android:name=".FinalizedActivity"
-            android:exported="false"
+            android:exported="true"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <intent-filter>
                 <action android:name="android.app.action.ADMIN_POLICY_COMPLIANCE" />
@@ -82,7 +79,6 @@
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
                 <action android:name="android.app.action.PROFILE_PROVISIONING_COMPLETE"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.app.action.PROFILE_OWNER_CHANGED"/>
                 <action android:name="android.app.action.DEVICE_OWNER_CHANGED"/>
             </intent-filter>
         </receiver>
