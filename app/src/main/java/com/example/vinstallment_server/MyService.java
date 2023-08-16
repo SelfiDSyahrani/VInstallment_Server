@@ -9,8 +9,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +45,17 @@ public class MyService extends Service {
         @Override
         public void HMinNol() throws RemoteException {
             sendNotification("Hari ini adalah jatuh tempo pembayaran cicilan. Harap segera lakukan pembayaran, Abaikan pesan ini jika anda sudah membayar. Terima kasih!", true);
+            PackageManager pm = getPackageManager();
+
+            PackageManager pmgr = getPackageManager();
+            List<PackageInfo> installedPackages = pmgr.getInstalledPackages(0);
+
+            for (PackageInfo packageInfo : installedPackages) {
+                if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1) {
+                    String packageName = packageInfo.packageName;
+                    Log.d("UserAppPackage", "User App Package Name: " + packageName);
+                }
+            }
         }
 
         @Override
@@ -60,14 +74,17 @@ public class MyService extends Service {
             Context context = getApplicationContext();
             ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
 
-            suspendAllAppsExceptAllowedApps(dpm, adminComponent);
-            Toast.makeText(getApplicationContext(), "Beberapa aplikasi anda dinonaktifkan", Toast.LENGTH_SHORT).show();
-
+            dpm.setCameraDisabled(adminComponent, true);
+            Toast.makeText(getApplicationContext(), "Akses kamera anda dinonaktifkan", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void HPlusTiga() throws RemoteException {
+            DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
             Context context = getApplicationContext();
+            ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
+            suspendAllAppsExceptAllowedApps(dpm, adminComponent);
+            Toast.makeText(getApplicationContext(), "Beberapa aplikasi anda dinonaktifkan", Toast.LENGTH_SHORT).show();
             playTextToSpeech(context, "Silahkan bayar tagihan anda");
         }
 
@@ -92,8 +109,9 @@ public class MyService extends Service {
             Toast.makeText(getApplicationContext(), "Akses aplikasi anda kembali diaktifkan", Toast.LENGTH_SHORT).show();
 
             if (dpm.isAdminActive(adminComponent)) {
-//                dpm.clearDeviceOwnerApp(context.getPackageName());
-                dpm.wipeData(0); // normal reset factory
+                dpm.clearDeviceOwnerApp(context.getPackageName());
+//                dpm.wipeData(0); // normal reset factory
+
             }
         }
     };
@@ -128,20 +146,30 @@ public class MyService extends Service {
     }
 
     private void suspendAllAppsExceptAllowedApps(DevicePolicyManager dpm, ComponentName adminComponent) {
+        PackageManager pm = getPackageManager(); // Get the PackageManager
+        List<String> exemptPackages = Arrays.asList("com.android.settings", "com.example.vinstallment_server", "com.android.contacts", "com.android.phone");
+        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> packages = pm.queryIntentActivities(mainIntent, 0);
+        List<ResolveInfo> MatchDefaultOnly = pm.queryIntentActivities(mainIntent, PackageManager.GET_META_DATA);
 
-        List<String> exemptPackages = Arrays.asList("com.android.settings", "com.android.contacts", "com.android.phone");
-
-        List<PackageInfo> installedPackages = getPackageManager().getInstalledPackages(0);
-        Log.d("suspend", "suspendAllAppsExceptAllowedApps: " + installedPackages);
-        for (PackageInfo packageInfo : installedPackages) {
-            String packageName = packageInfo.packageName;
-
-            if (!exemptPackages.contains(packageName)) {
-                dpm.setPackagesSuspended(adminComponent, new String[]{packageName}, true); // Suspend the app
+        for (ResolveInfo resolveInfo : packages) {
+            try {
+                String package_name = resolveInfo.activityInfo.packageName;
+                if (!exemptPackages.contains(package_name)) {
+                    String[] suspended = dpm.setPackagesSuspended(adminComponent, new String[]{package_name}, true);
+                    if (suspended != null) {
+//                        Log.i("AppSuspend", "Package suspended: " + suspended);
+                    } else {
+                        Log.i("AppSuspend", "Failed to suspend package: " + package_name);
+                    }
+                }
+            } catch (Exception e) {
+                Log.e("AppSuspend", "Error: " + e.getMessage());
             }
         }
-
     }
+
 
     private void sendNotification(String contentText, boolean autocancel) {
         Context context = getApplicationContext();

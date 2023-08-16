@@ -1,57 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_centerVertical="true"
-    android:padding="@android:dimen/app_icon_size">
+    android:layout_marginStart="40dp"
+    android:layout_marginEnd="30dp"
+    android:layout_marginTop="40dp"
+    android:background="@android:color/background_light">
 
-    <!-- Button "H-1" -->
-    <Button
-        android:id="@+id/buttonHMinus1"
+    <!-- SwitchButton "H-1" -->
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchHMinus1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H-1" />
+        android:text="H-1"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_marginTop="8dp"
+        android:saveEnabled="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_hukuman_ini_akamin1"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        android:paddingStart="8dp"
+        android:layout_marginBottom="8dp"/>
 
-    <!-- Button "H-0" -->
-    <Button
-        android:id="@+id/buttonHZero"
+    <!-- SwitchButton "H-0" -->
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchHZero"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H-0" />
-
-    <!-- Button "H+1" -->
-    <Button
-        android:id="@+id/buttonHPlus1"
+        android:text="H-0"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_marginTop="8dp"
+        android:saveEnabled="true"/>
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H+1" />
+        android:text="@string/msg_hukuman_ini_aka0"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        android:paddingStart="8dp"
+        android:paddingEnd="45dp"
+        android:layout_marginBottom="8dp"/>
 
-    <!-- Button "H+2" -->
-    <Button
-        android:id="@+id/buttonHPlus2"
+    <!-- SwitchButton "H+1" -->
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchHPlus1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H+2" />
+        android:text="H+1"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_marginTop="8dp"
+        android:saveEnabled="true"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_hukuman_ini_aka"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        android:paddingStart="8dp"
+        android:layout_marginBottom="8dp"/>
 
-    <!-- Button "H+3" -->
-    <Button
-        android:id="@+id/buttonHPlus3"
+    <!-- SwitchButton "H+2" -->
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchHPlus2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H+3" />
+        android:text="H+2"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_marginTop="8dp"
+        android:saveEnabled="true"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_hukuman_ini_aka2"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        android:paddingStart="8dp"
+        android:paddingEnd="45dp"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- SwitchButton "H+3" -->
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchHPlus3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="H+3"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_marginTop="8dp"
+        android:saveEnabled="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_hukuman_ini_aka3"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
+        android:paddingStart="8dp"
+        android:paddingEnd="45dp"
+        android:layout_marginBottom="8dp"/>
+
+    <!-- Button "Bayar" -->
+    <Button
+        android:id="@+id/buttonBayar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bayar"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:padding="10dp"
+        android:backgroundTint="@color/black"
+        android:layout_marginTop="8dp"/>
 
     <!-- Button "Lunas" -->
     <Button
         android:id="@+id/buttonLunas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lunas" />
+        android:text="Lunas"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:padding="10dp"
+        android:saveEnabled="true"
+        android:backgroundTint="@android:color/background_dark"
+        android:layout_marginTop="8dp"/>
 
-    <Button
-        android:id="@+id/buttonBayar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Bayar" />
+
+
 
 </LinearLayout>
