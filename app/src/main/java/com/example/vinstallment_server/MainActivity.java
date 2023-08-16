@@ -62,70 +62,66 @@ public class MainActivity extends AppCompatActivity {
         btnBayar = findViewById(R.id.buttonBayar);
         btnLunas = findViewById(R.id.buttonLunas);
 
+        Intent intent = new Intent("MyService");
+        intent.setPackage("com.example.vinstallment_server");
+        bindService(intent, mConnection, BIND_AUTO_CREATE);
+
         btnMinSatu.setOnClickListener(v -> {
-            sendNotification("Besok adalah jatuh tempo pembayaran cicilan. Pastikan untuk melakukan pembayaran tepat waktu. Terima kasih!", true);
+            try {
+                iMyAidlService.HMinSatu();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         btnMinNol.setOnClickListener(v -> {
-            sendNotification("Hari ini adalah jatuh tempo pembayaran cicilan. Harap segera lakukan pembayaran, Abaikan pesan ini jika anda sudah membayar. Terima kasih!", true);
+            try {
+                iMyAidlService.HMinNol();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         btnPlusSatu.setOnClickListener(v -> {
-            DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-            Context context = getApplicationContext();
-            ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
-
-            dpm.setCameraDisabled(adminComponent, true);
-            Toast.makeText(getApplicationContext(), "Akses kamera anda dinonaktifkan", Toast.LENGTH_SHORT).show();
-
-//            showPopup("Akses kamera dimatikan, segera lakukan pembayaran, untuk mengaktifkan akses kembali.");
+            try {
+                iMyAidlService.HPlusSatu();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         btnPlusDua.setOnClickListener(v -> {
-            DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-            Context context = getApplicationContext();
-            ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
-
-            suspendAllAppsExceptAllowedApps(dpm, adminComponent);
-            Toast.makeText(getApplicationContext(), "Beberapa aplikasi anda dinonaktifkan", Toast.LENGTH_SHORT).show();
+            try {
+                iMyAidlService.HPlusDua();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         btnPlusTiga.setOnClickListener(v -> {
-            Context context = getApplicationContext();
-            playTextToSpeech(context, "Silahkan bayar tagihan anda");
+            try {
+                iMyAidlService.HPlusTiga();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         btnBayar.setOnClickListener(v -> {
-            DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-            Context context = getApplicationContext();
-            ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
-            dpm.setCameraDisabled(adminComponent, false);
-            unsuspendApps(dpm, adminComponent);
-            Toast.makeText(getApplicationContext(), "Akses aplikasi anda kembali diaktifkan", Toast.LENGTH_SHORT).show();
-
+            try {
+                iMyAidlService.Bayar();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         btnLunas.setOnClickListener(v -> {
-            DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-            Context context = getApplicationContext();
-            ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
-
-            unsuspendApps(dpm, adminComponent);
-            Toast.makeText(getApplicationContext(), "Akses aplikasi anda kembali diaktifkan", Toast.LENGTH_SHORT).show();
-
-            if (dpm.isAdminActive(adminComponent)) {
-//                dpm.removeActiveAdmin(adminComponent);
-                dpm.clearDeviceOwnerApp(context.getPackageName());
-//                dpm.wipeData(0); // normal reset factory
-//                dpm.wipeData(DevicePolicyManager.WIPE_RESET_PROTECTION_DATA); // reset factory + wipe factory reset protection
-//                Toast.makeText(getApplicationContext(), "true", Toast.LENGTH_SHORT).show();
+            try {
+                iMyAidlService.Lunas();
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
             }
-
         });
 
-//        Intent intent = new Intent("MyService");
-//        intent.setPackage("com.example.vinstallment_server");
-//        bindService(intent, mConnection, BIND_AUTO_CREATE);
     }
 
     private void unsuspendApps(DevicePolicyManager dpm, ComponentName adminComponent) {
@@ -140,88 +136,6 @@ public class MainActivity extends AppCompatActivity {
                 dpm.setPackagesSuspended(adminComponent, new String[]{packageName}, false); // Unsuspend the app
             }
         }
-    }
-
-    private void showPopup(String message) {
-        Context context = getApplicationContext();
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Peringatan");
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                sendNotification(message, false);
-            }
-        });
-        builder.show();
-    }
-
-    private void sendNotification(String contentText, boolean autocancel) {
-        Context context = getApplicationContext();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    "channel_id",
-                    "Channel Name",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-
-            NotificationManager manager = context.getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-        }
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "channel_id")
-                .setSmallIcon(android.R.drawable.sym_def_app_icon)
-                .setContentTitle("VInstallment")
-                .setContentText("Pemberitahuan: " + contentText)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(autocancel);
-
-        NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-        notificationManager.notify(1, builder.build());
-    }
-
-    private void suspendAllAppsExceptAllowedApps(DevicePolicyManager dpm, ComponentName adminComponent) {
-
-        List<String> exemptPackages = Arrays.asList("com.android.settings", "com.android.contacts", "com.android.phone");
-
-        List<PackageInfo> installedPackages = getPackageManager().getInstalledPackages(0);
-        Log.d("suspend", "suspendAllAppsExceptAllowedApps: " + installedPackages);
-        for (PackageInfo packageInfo : installedPackages) {
-            String packageName = packageInfo.packageName;
-
-            if (!exemptPackages.contains(packageName)) {
-                dpm.setPackagesSuspended(adminComponent, new String[]{packageName}, true); // Suspend the app
-            }
-        }
-
-    }
-
-    private void playTextToSpeech(Context context, String textToSpeak) {
-        textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS) {
-                    Locale locale = new Locale("id", "ID");
-                    int result = textToSpeech.setLanguage(locale);
-                    HashMap<String, String> params = new HashMap<>();
-                    params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "utteranceId");
-                    textToSpeech.speak(textToSpeak,TextToSpeech.QUEUE_FLUSH, params);
-                }
-            }
-        });
-    }
-//    private void executeMethodSafely(RemoteMethodExecutor executor) {
-//        if (iMyAidlService != null) {
-//            try {
-//                executor.execute();
-//            } catch (RemoteException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-
-    private interface RemoteMethodExecutor {
-        void execute() throws RemoteException;
     }
 
     @Override
