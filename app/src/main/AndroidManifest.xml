@@ -38,7 +38,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VInstallment_Server"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:sharedUserId="com.example.shareduser">
         <activity
             android:name=".FirstActivity"
             android:exported="true">
@@ -88,7 +89,12 @@
             android:name=".MyService"
             android:exported="true">
             <intent-filter>
-                <action android:name="MyService" />
+                <action android:name="MyService"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.example.vinstallment_server.ACTION_UPDATE_TEXT" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
         <activity

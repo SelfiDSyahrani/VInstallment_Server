@@ -25,7 +25,9 @@
     <string name="msg_total_jumlah_ci">Total Jumlah Cicilan 12 Kali Bayar</string>
     <string name="lbl_sisa_cicilan">Sisa cicilan</string>
     <string name="msg_hukuman_terlamb3">Hukuman terlambat bayar tiga hari</string>
-    <string name="msg_hukuman_ini_aka3">Semua aplikasi kecuali aplikasi komunikasi seperti whatsapp, telepon, pengaturan dinonaktifkan. Device juga akan mengeluarkan suara setiap satu jam</string>
+    <string name="msg_hukuman_ini_aka3">Semua aplikasi kecuali aplikasi komunikasi dan pengaturan dinonaktifkan </string>
     <string name="msg_hukuman_ini_aka2">Nonaktifkan aplikasi kamera</string>
     <string name="msg_minimal_pembaya">Minimal Pembayaran</string>
+    <string name="shared_user_label">shared_user_label</string>
+    <string name="shared_user_id">shared_user_id</string>
 </resources>

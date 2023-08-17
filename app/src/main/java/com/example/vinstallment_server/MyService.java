@@ -9,6 +9,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -30,6 +31,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyService extends Service {
+    private String textToSpeakLagi;
+
     public MyService() {
     }
 
@@ -45,27 +48,36 @@ public class MyService extends Service {
         @Override
         public void HMinNol() throws RemoteException {
             sendNotification("Hari ini adalah jatuh tempo pembayaran cicilan. Harap segera lakukan pembayaran, Abaikan pesan ini jika anda sudah membayar. Terima kasih!", true);
-            PackageManager pm = getPackageManager();
-
-            PackageManager pmgr = getPackageManager();
-            List<PackageInfo> installedPackages = pmgr.getInstalledPackages(0);
-
-            for (PackageInfo packageInfo : installedPackages) {
-                if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1) {
-                    String packageName = packageInfo.packageName;
-                    Log.d("UserAppPackage", "User App Package Name: " + packageName);
-                }
-            }
+//            PackageManager pm = getPackageManager();
+//
+//            PackageManager pmgr = getPackageManager();
+//            List<PackageInfo> installedPackages = pmgr.getInstalledPackages(0);
+//
+//            for (PackageInfo packageInfo : installedPackages) {
+//                if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1) {
+//                    String packageName = packageInfo.packageName;
+//                    Log.d("UserAppPackage", "User App Package Name: " + packageName);
+//                }
+//            }
         }
 
         @Override
         public void HPlusSatu() throws RemoteException {
-            DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-            Context context = getApplicationContext();
-            ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
+            sendNotification("Anda sudah terlambat satu hari. Segera bayar cicilan Anda.",false);
+//            Intent intent = new Intent();
+//            intent.setAction("com.example.vinstallment_test.ACTION_UPDATE_TEXT");
+//            intent.putExtra("data", "aktif");
+//            intent.putExtra("target", "HPlusSatu");
+//            intent.setPackage("com.example.vinstallment_test"); // Replace with app2's package name
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
 
-            dpm.setCameraDisabled(adminComponent, true);
-            Toast.makeText(getApplicationContext(), "Akses kamera anda dinonaktifkan", Toast.LENGTH_SHORT).show();
+//            SharedPreferences prefs = getSharedPreferences("demopref",
+//                    Context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = prefs.edit();
+//            editor.putString("Aktif", "Aktif");
+//            editor.apply();
+
         }
 
         @Override
@@ -76,6 +88,15 @@ public class MyService extends Service {
 
             dpm.setCameraDisabled(adminComponent, true);
             Toast.makeText(getApplicationContext(), "Akses kamera anda dinonaktifkan", Toast.LENGTH_SHORT).show();
+
+//            Intent intent = new Intent();
+//            intent.setAction("com.example.vinstallment_test.ACTION_UPDATE_TEXT");
+//            intent.putExtra("data", "aktif");
+//            intent.putExtra("target", "HPlusDua");
+//            intent.setPackage("com.example.vinstallment_test");
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+
         }
 
         @Override
@@ -85,7 +106,16 @@ public class MyService extends Service {
             ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
             suspendAllAppsExceptAllowedApps(dpm, adminComponent);
             Toast.makeText(getApplicationContext(), "Beberapa aplikasi anda dinonaktifkan", Toast.LENGTH_SHORT).show();
-            playTextToSpeech(context, "Silahkan bayar tagihan anda");
+            playTextToSpeech(context, "Please proceed with your payment");
+
+//            Intent intent = new Intent();
+//            intent.setAction("com.example.vinstallment_test.ACTION_UPDATE_TEXT");
+//            intent.putExtra("data", "aktif");
+//            intent.putExtra("target", "HPlusTiga");
+//            intent.setPackage("com.example.vinstallment_test"); // Replace with app2's package name
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+
         }
 
         @Override
@@ -96,6 +126,13 @@ public class MyService extends Service {
             dpm.setCameraDisabled(adminComponent, false);
             unsuspendApps(dpm, adminComponent);
             Toast.makeText(getApplicationContext(), "Akses aplikasi anda kembali diaktifkan", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent();
+//            intent.setAction("com.example.vinstallment_test.ACTION_UPDATE_TEXT");
+//            intent.putExtra("data", "aktif");
+//            intent.putExtra("target", "Bayar");
+//            intent.setPackage("com.example.vinstallment_test");
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
 
         }
 
@@ -114,6 +151,15 @@ public class MyService extends Service {
 
             }
         }
+
+        @Override
+        public String getValueFromSharedPreferences(String key) throws RemoteException {
+            SharedPreferences sharedPreferences = getSharedPreferences("myPreference", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(key,"Aktif");
+            editor.apply();
+            return sharedPreferences.getString(key, "Tidak Aktif");
+        }
     };
 
     private void unsuspendApps(DevicePolicyManager dpm, ComponentName adminComponent) {
@@ -131,12 +177,18 @@ public class MyService extends Service {
     }
 
     private void playTextToSpeech(Context context, String textToSpeak) {
+        textToSpeakLagi = textToSpeak;
         textToSpeech = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
                     Locale locale = new Locale("id", "ID");
                     int result = textToSpeech.setLanguage(locale);
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Locale englishLocale = new Locale("en", "US");
+                        textToSpeech.setLanguage(englishLocale);
+                        textToSpeakLagi = "Please proceed with your payment";
+                    }
                     HashMap<String, String> params = new HashMap<>();
                     params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "utteranceId");
                     textToSpeech.speak(textToSpeak,TextToSpeech.QUEUE_FLUSH, params);

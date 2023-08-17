@@ -2,149 +2,253 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
     android:layout_centerVertical="true"
     android:layout_marginStart="40dp"
-    android:layout_marginEnd="30dp"
     android:layout_marginTop="40dp"
-    android:background="@android:color/background_light">
+    android:layout_marginEnd="30dp"
+    android:background="@android:color/background_light"
+    android:orientation="vertical">
+
 
     <!-- SwitchButton "H-1" -->
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchHMinus1"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="H-1"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:padding="10dp"
-        android:layout_marginTop="8dp"
-        android:saveEnabled="true"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/msg_hukuman_ini_akamin1"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp"
-        android:paddingStart="8dp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="2dp"
+                android:text="H-1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:gravity="center_vertical"
+                android:text="@string/msg_hukuman_ini_akamin1"
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/switchHMinus1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:saveEnabled="true"
+            android:text="H-1"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <!-- SwitchButton "H-0" -->
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchHZero"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H-0"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:padding="10dp"
-        android:layout_marginTop="8dp"
-        android:saveEnabled="true"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/msg_hukuman_ini_aka0"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp"
-        android:paddingStart="8dp"
-        android:paddingEnd="45dp"
-        android:layout_marginBottom="8dp"/>
+        android:paddingVertical="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="2dp"
+                android:text="H-0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:text="@string/msg_hukuman_ini_aka0"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/switchHZero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:saveEnabled="true"
+            android:text="H-0"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
     <!-- SwitchButton "H+1" -->
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchHPlus1"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H+1"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:padding="10dp"
-        android:layout_marginTop="8dp"
-        android:saveEnabled="true"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/msg_hukuman_ini_aka"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp"
-        android:paddingStart="8dp"
-        android:layout_marginBottom="8dp"/>
+        android:paddingVertical="10dp">
 
-    <!-- SwitchButton "H+2" -->
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchHPlus2"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="2dp"
+                android:text="H+1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:gravity="center_vertical"
+                android:text="@string/msg_hukuman_ini_aka"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/switchHPlus1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:saveEnabled="true"
+            android:text="H+1"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H+2"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:padding="10dp"
-        android:layout_marginTop="8dp"
-        android:saveEnabled="true"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/msg_hukuman_ini_aka2"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp"
-        android:paddingStart="8dp"
-        android:paddingEnd="45dp"
-        android:layout_marginBottom="8dp"/>
+        android:paddingVertical="10dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="2dp"
+                android:text="H+2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:text="@string/msg_hukuman_ini_aka2"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/switchHPlus2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:saveEnabled="true"
+            android:text="H+2"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <!-- SwitchButton "H+3" -->
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/switchHPlus3"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H+3"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:padding="10dp"
-        android:layout_marginTop="8dp"
-        android:saveEnabled="true"/>
+        android:paddingVertical="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/msg_hukuman_ini_aka3"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp"
-        android:paddingStart="8dp"
-        android:paddingEnd="45dp"
-        android:layout_marginBottom="8dp"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
 
-    <!-- Button "Bayar" -->
-    <Button
-        android:id="@+id/buttonBayar"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="2dp"
+                android:text="H+3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:text="@string/msg_hukuman_ini_aka3"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/switchHPlus3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:saveEnabled="true"
+            android:text="H+3"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bayar"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        android:padding="10dp"
-        android:backgroundTint="@color/black"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal">
 
-    <!-- Button "Lunas" -->
-    <Button
-        android:id="@+id/buttonLunas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Lunas"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        android:padding="10dp"
-        android:saveEnabled="true"
-        android:backgroundTint="@android:color/background_dark"
-        android:layout_marginTop="8dp"/>
+        <Button
+            android:id="@+id/buttonBayar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:layout_marginEnd="50dp"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:text="Bayar"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
 
+        <Button
+            android:id="@+id/buttonLunas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:saveEnabled="true"
+            android:text="Lunas"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
 
-
+    </LinearLayout>
 
 </LinearLayout>
