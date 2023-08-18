@@ -23,6 +23,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES"/>
+
     <uses-permission android:name="android.permission.REQUEST_PASSWORD_COMPLEXITY"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -46,8 +50,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VInstallment_Server"
-        tools:targetApi="31"
-        android:sharedUserId="com.example.shareduser">
+        tools:targetApi="31">
         <activity
             android:name=".FirstActivity"
             android:exported="true">
@@ -57,6 +60,12 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".Receiver.InstallationResultReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="your.package.name.ACTION_INSTALL_RESULT" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".FinalizedActivity"
             android:exported="true"
@@ -94,7 +103,7 @@
         </receiver>
 
         <service
-            android:name=".MyService"
+            android:name=".Service.MyService"
             android:exported="true">
             <intent-filter>
                 <action android:name="MyService"/>

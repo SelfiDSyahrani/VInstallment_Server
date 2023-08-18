@@ -2,25 +2,36 @@ package com.example.vinstallment_server;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DownloadManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageInstaller;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 import android.widget.Button;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class MainActivity extends AppCompatActivity {
-    private static final String SHARED_PREFERENCES_NAME = "myPreference";
-    private static final String KEY_1 = "1";
-    private static final String KEY_2 = "2";
-    private static final String KEY_3 = "3";
 
     private IMyAidlInterface iMyAidlService;
-    SharedPreferences sharedPreferences;
-
 
     Button btnBayar, btnLunas;
     private final ServiceConnection mConnection = new ServiceConnection() {
@@ -121,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
     private void sendDataToApp2(String target) {
         Intent intent = new Intent();
         intent.setAction("com.example.vinstallment_test.ACTION_SEND_DATA");
