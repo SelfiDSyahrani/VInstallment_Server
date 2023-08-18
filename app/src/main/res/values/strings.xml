@@ -30,4 +30,21 @@
     <string name="msg_minimal_pembaya">Minimal Pembayaran</string>
     <string name="shared_user_label">shared_user_label</string>
     <string name="shared_user_id">shared_user_id</string>
+    <string name="EULA">This End User License Agreement ("Agreement") is a legal agreement between you (the "User") and Installment company. By installing and using the App, you agree to be bound by the terms and conditions of this Agreement.
+End User License Agreement (EULA)
+    </string>
+    <string name="Body">By installing and using the VInstallment ("App"), you agree to the following terms:
+
+Purpose: The App is designed to control and monitor your device during the specified installment period.
+
+Device Control: The App will enforce certain device restrictions to ensure compliance with the installment agreement.
+
+Privacy: The App may collect device information to monitor compliance and improve functionality.
+
+Consent: You consent to device control and monitoring during the installment period.
+
+Termination: The license ends when the installment period ends or for non-compliance.
+
+    </string>
+    <string name="Done">Device Registration Successfully Completed!\nClick done to resume\n</string>
 </resources>

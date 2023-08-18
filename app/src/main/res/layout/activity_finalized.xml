@@ -5,14 +5,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginTop="20dp"
     android:padding="16dp">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_launcher_background" />
+        android:src="@drawable/img_2" />
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -21,8 +25,8 @@
         android:layout_below="@id/imageView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Pendaftaran Selesai"
-        android:textSize="18sp"
+        android:text="Register Success"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <TextView
@@ -31,16 +35,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:text="Pendaftaran perangkat telah berhasil!"
-        android:textSize="16sp" />
+        android:layout_marginTop="50dp"
+        android:text="@string/Done"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+        />
 
     <Button
         android:id="@+id/btn_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewDescription"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:text="Selesai" />
+        android:textColor="#FAFAFA"
+        android:backgroundTint="#3C85FF"
+        android:text="Done" />
 </RelativeLayout>
