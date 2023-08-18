@@ -174,6 +174,7 @@ public class MyService extends Service {
                 dpm.setPackagesSuspended(adminComponent, new String[]{packageName}, false); // Unsuspend the app
             }
         }
+        dpm.setApplicationHidden(adminComponent, "com.android.vending", false);
     }
 
     private void playTextToSpeech(Context context, String textToSpeak) {
@@ -199,29 +200,58 @@ public class MyService extends Service {
 
     private void suspendAllAppsExceptAllowedApps(DevicePolicyManager dpm, ComponentName adminComponent) {
         PackageManager pm = getPackageManager(); // Get the PackageManager
-        List<String> exemptPackages = Arrays.asList("com.android.settings", "com.example.vinstallment_server", "com.android.contacts", "com.android.phone");
+        List<String> exemptPackages = Arrays.asList("com.android.settings", "com.example.vinstallment_server","com.example.vinstallment_test", "com.android.contacts", "com.android.phone");
         Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         List<ResolveInfo> packages = pm.queryIntentActivities(mainIntent, 0);
-        List<ResolveInfo> MatchDefaultOnly = pm.queryIntentActivities(mainIntent, PackageManager.GET_META_DATA);
+
 
         for (ResolveInfo resolveInfo : packages) {
             try {
                 String package_name = resolveInfo.activityInfo.packageName;
+
                 if (!exemptPackages.contains(package_name)) {
                     String[] suspended = dpm.setPackagesSuspended(adminComponent, new String[]{package_name}, true);
                     if (suspended != null) {
-//                        Log.i("AppSuspend", "Package suspended: " + suspended);
+//                        Log.i("AppSuspend", "Package suspended: " + package_name);
                     } else {
                         Log.i("AppSuspend", "Failed to suspend package: " + package_name);
                     }
                 }
+                Log.i("AppSuspend", "Package suspended: " + package_name);
             } catch (Exception e) {
                 Log.e("AppSuspend", "Error: " + e.getMessage());
             }
         }
+
+        dpm.setApplicationHidden(adminComponent, "com.android.vending", true);
+
     }
 
+    private void suspendAllAppsExceptAllowedApps1(DevicePolicyManager dpm, ComponentName adminComponent) {
+        PackageManager pm = getPackageManager();
+        List<String> allowedPackages = Arrays.asList(
+                "com.android.settings",
+                "com.example.vinstallment_server",
+                "com.android.contacts",
+                "com.android.phone"
+        );
+
+        List<ApplicationInfo> installedApps = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        for (ApplicationInfo appInfo : installedApps) {
+            String packageName = appInfo.packageName;
+
+            if (!allowedPackages.contains(packageName)) {
+                try {
+                    dpm.setPackagesSuspended(adminComponent, new String[]{packageName}, true);
+                    Log.i("AppSuspend", "Package suspended: " + packageName);
+                } catch (Exception e) {
+                    Log.e("AppSuspend", "Failed to suspend package: " + packageName + ", Error: " + e.getMessage());
+                }
+            }
+        }
+    }
 
     private void sendNotification(String contentText, boolean autocancel) {
         Context context = getApplicationContext();
