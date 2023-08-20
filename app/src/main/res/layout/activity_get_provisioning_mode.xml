@@ -1,10 +1,12 @@
-<!-- res/layout/activity_provisioning.xml -->
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginStart="20dp"
+    android:layout_marginBottom="20dp"
     android:padding="16dp">
 
     <ImageView
@@ -12,7 +14,8 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_launcher_background" />
+        android:src="@drawable/img_2"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -20,9 +23,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/imageView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="Selamat Datang di Aplikasi DPC"
-        android:textSize="18sp"
+        android:layout_marginTop="24dp"
+        android:text="End User License Agreement (EULA)"
+        android:textSize="22sp"
+        android:textColor="#40B3FF"
         android:textStyle="bold" />
 
     <TextView
@@ -31,16 +35,27 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textViewTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:text="Silakan klik tombol di bawah untuk memulai pendaftaran."
-        android:textSize="16sp" />
+        android:layout_marginTop="16dp"
+        android:text="@string/EULA"
+        style="@style/TextAppearance.AppCompat.Caption"/>
+
+    <TextView
+        android:id="@+id/textViewDescription1"
+        style="@style/TextAppearance.AppCompat.Caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTitle"
+        android:layout_marginTop="108dp"
+        android:text="@string/Body" />
 
     <Button
         android:id="@+id/btn_start_enrollment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewDescription"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:text="Mulai Pendaftaran" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="32dp"
+        android:text="Agree"
+        android:textColor="@color/white_A700"
+        android:backgroundTint="@color/black_900"/>
 </RelativeLayout>

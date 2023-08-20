@@ -1,57 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_height="wrap_content"
     android:layout_centerVertical="true"
-    android:padding="@android:dimen/app_icon_size">
+    android:layout_marginStart="40dp"
+    android:layout_marginTop="40dp"
+    android:layout_marginEnd="30dp"
+    android:background="@android:color/background_light"
+    android:orientation="vertical">
 
-    <!-- Button "H-1" -->
-    <Button
-        android:id="@+id/buttonHMinus1"
+
+    <!-- SwitchButton "H-1" -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="2dp"
+                android:text="H-1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:gravity="center_vertical"
+                android:text="@string/msg_hukuman_ini_akamin1"
+                android:textColor="@android:color/darker_gray" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/switchHMinus1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:saveEnabled="true"
+            android:text="H-1"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- SwitchButton "H-0" -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H-1" />
+        android:paddingVertical="10dp">
 
-    <!-- Button "H-0" -->
-    <Button
-        android:id="@+id/buttonHZero"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="2dp"
+                android:text="H-0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:text="@string/msg_hukuman_ini_aka0"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/switchHZero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:saveEnabled="true"
+            android:text="H-0"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <!-- SwitchButton "H+1" -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H-0" />
+        android:paddingVertical="10dp">
 
-    <!-- Button "H+1" -->
-    <Button
-        android:id="@+id/buttonHPlus1"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="2dp"
+                android:text="H+1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:gravity="center_vertical"
+                android:text="@string/msg_hukuman_ini_aka"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/switchHPlus1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:saveEnabled="true"
+            android:text="H+1"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H+1" />
+        android:paddingVertical="10dp">
 
-    <!-- Button "H+2" -->
-    <Button
-        android:id="@+id/buttonHPlus2"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="2dp"
+                android:text="H+2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:text="@string/msg_hukuman_ini_aka2"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/switchHPlus2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:saveEnabled="true"
+            android:text="H+2"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- SwitchButton "H+3" -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H+2" />
+        android:paddingVertical="10dp">
 
-    <!-- Button "H+3" -->
-    <Button
-        android:id="@+id/buttonHPlus3"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="2dp"
+                android:text="H+3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:layout_weight="0.5"
+                android:gravity="center_vertical"
+                android:text="@string/msg_hukuman_ini_aka3"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/switchHPlus3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:saveEnabled="true"
+            android:text="H+3"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="H+3" />
+        android:layout_marginTop="60dp"
+        android:orientation="horizontal">
 
-    <!-- Button "Lunas" -->
-    <Button
-        android:id="@+id/buttonLunas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Lunas" />
+        <Button
+            android:id="@+id/buttonBayar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:layout_marginEnd="50dp"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:text="Bayar"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/buttonLunas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:backgroundTint="@color/teal_700"
+            android:padding="10dp"
+            android:saveEnabled="true"
+            android:text="Lunas"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
     <Button
-        android:id="@+id/buttonBayar"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bayar" />
+        android:id="@+id/download"
+        android:text="downlaod"/>
 
 </LinearLayout>

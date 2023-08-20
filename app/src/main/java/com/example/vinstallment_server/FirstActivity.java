@@ -25,6 +25,7 @@ public class FirstActivity extends AppCompatActivity {
         if (manager.isDeviceOwnerApp(getPackageName())) {
 //            Log.d(TAG, "onCreate: ");
             Toast.makeText(getApplicationContext(), "App is the device owner", Toast.LENGTH_SHORT).show();
+
             Intent intent = new Intent(FirstActivity.this, MainActivity.class);
             startActivity(intent);
             finish();

@@ -9,5 +9,5 @@ interface IMyAidlInterface {
     void HPlusTiga();
     void Bayar();
     void Lunas();
-
+    String getValueFromSharedPreferences(String key);
 }
