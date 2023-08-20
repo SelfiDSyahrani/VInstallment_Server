@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DownloadManager;
 import android.app.PendingIntent;
+import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -58,11 +59,13 @@ public class MainActivity extends AppCompatActivity {
         Button switchPlusTiga = findViewById(R.id.switchHPlus3);
         btnBayar = findViewById(R.id.buttonBayar);
         btnLunas = findViewById(R.id.buttonLunas);
+//        Button btnDownload = findViewById(R.id.download);
 
         Intent intent = new Intent("MyService");
         intent.setPackage("com.example.vinstallment_server");
         bindService(intent, mConnection, BIND_AUTO_CREATE);
 
+        setAppUninstallBlocked(getApplicationContext(), "com.example.vinstallment_test", true);
 
         switchMinSatu.setOnClickListener(v -> {
             try {
@@ -123,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         btnLunas.setOnClickListener(v -> {
             try {
                 iMyAidlService.Lunas();
+                setAppUninstallBlocked(getApplicationContext(), "com.example.vinstallment_test", false);
                 switchPlusSatu.setEnabled(true);
                 switchPlusDua.setEnabled(true);
                 switchPlusTiga.setEnabled(true);
@@ -131,6 +135,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setAppUninstallBlocked(Context context, String packageName, boolean uninstallBlocked) {
+        DevicePolicyManager dpm = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
+        dpm.setUninstallBlocked(adminComponent, packageName, uninstallBlocked);
     }
 
     private void sendDataToApp2(String target) {

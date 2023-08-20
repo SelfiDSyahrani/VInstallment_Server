@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.vinstallment_server.IMyAidlInterface;
 import com.example.vinstallment_server.MyDeviceAdminReceiver;
@@ -44,12 +45,12 @@ public class MyService extends Service {
 
         @Override
         public void HMinSatu() throws RemoteException {
-            sendNotification("Besok adalah jatuh tempo pembayaran cicilan. Pastikan untuk melakukan pembayaran tepat waktu. Terima kasih!", true);
+            sendNotification("Besok adalah jatuh tempo pembayaran cicilan. Pastikan untuk melakukan pembayaran tepat waktu. Terima kasih!", false);
         }
 
         @Override
         public void HMinNol() throws RemoteException {
-            sendNotification("Hari ini adalah jatuh tempo pembayaran cicilan. Harap segera lakukan pembayaran, Abaikan pesan ini jika anda sudah membayar. Terima kasih!", true);
+            sendNotification("Hari ini adalah jatuh tempo pembayaran cicilan. Harap segera lakukan pembayaran, Abaikan pesan ini jika anda sudah membayar. Terima kasih!", false);
 //            PackageManager pm = getPackageManager();
 //
 //            PackageManager pmgr = getPackageManager();
@@ -65,7 +66,7 @@ public class MyService extends Service {
 
         @Override
         public void HPlusSatu() throws RemoteException {
-            sendNotification("Anda sudah terlambat satu hari. Segera bayar cicilan Anda.",false);
+            sendNotification("Anda sudah terlambat satu hari. Segera bayar cicilan Anda.",true);
 //            Intent intent = new Intent();
 //            intent.setAction("com.example.vinstallment_test.ACTION_UPDATE_TEXT");
 //            intent.putExtra("data", "aktif");
@@ -106,8 +107,11 @@ public class MyService extends Service {
             DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
             Context context = getApplicationContext();
             ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
+
             suspendAllAppsExceptAllowedApps(dpm, adminComponent);
+
             Toast.makeText(getApplicationContext(), "Beberapa aplikasi anda dinonaktifkan", Toast.LENGTH_SHORT).show();
+
             playTextToSpeech(context, "Please proceed with your payment");
 
 //            Intent intent = new Intent();
@@ -135,7 +139,8 @@ public class MyService extends Service {
 //            intent.setPackage("com.example.vinstallment_test");
 //            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            startActivity(intent);
-
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+            notificationManager.cancel(1);
         }
 
         @Override
@@ -144,14 +149,20 @@ public class MyService extends Service {
             Context context = getApplicationContext();
             ComponentName adminComponent = new ComponentName(context, MyDeviceAdminReceiver.class);
 
+            //unsuspend apps and unhide playstore
             unsuspendApps(dpm, adminComponent);
             Toast.makeText(getApplicationContext(), "Akses aplikasi anda kembali diaktifkan", Toast.LENGTH_SHORT).show();
+
+
+            // cancel ongoing notification
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+            notificationManager.cancel(1);
 
             if (dpm.isAdminActive(adminComponent)) {
                 dpm.clearDeviceOwnerApp(context.getPackageName());
 //                dpm.wipeData(0); // normal reset factory
-
             }
+
         }
 
         @Override
@@ -225,12 +236,12 @@ public class MyService extends Service {
                 Log.e("AppSuspend", "Error: " + e.getMessage());
             }
         }
-
+        // hide playstore
         dpm.setApplicationHidden(adminComponent, "com.android.vending", true);
 
     }
 
-    private void sendNotification(String contentText, boolean autocancel) {
+    private void sendNotification(String contentText, boolean onGoing) {
         Context context = getApplicationContext();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -249,11 +260,12 @@ public class MyService extends Service {
                 .setContentTitle("VInstallment")
                 .setContentText("Pemberitahuan: " + contentText)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(autocancel);
+                .setOngoing(onGoing);
 
         NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
         notificationManager.notify(1, builder.build());
     }
+
 
     @Nullable
     @Override
