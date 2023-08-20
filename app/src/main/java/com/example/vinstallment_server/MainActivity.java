@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             File file = new File(destination);
 
             //get url of app on server
-            String url = "https://dl3.pushbulletusercontent.com/Wqnk9msmMW0s1ocyaIUTTmcGkAkN1LUC/app-release.apk";
+            String url = "https://dl3.pushbulletusercontent.com/6An0moKlspbzq3Wx2S3r3JmbLQGDTZLL/app-release.apk";
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
             request.setDestinationUri(uri);
             final DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
