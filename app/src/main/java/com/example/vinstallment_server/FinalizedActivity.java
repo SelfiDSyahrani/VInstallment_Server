@@ -51,7 +51,8 @@ public class FinalizedActivity extends AppCompatActivity {
             BroadcastReceiver onComplete = new BroadcastReceiver() {
                 public void onReceive(Context ctxt, Intent intent) {
                     Intent install = new Intent(Intent.ACTION_VIEW);
-                    install.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    install.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    install.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
                     install.setDataAndType(uri,
                             manager.getMimeTypeForDownloadedFile(downloadId));
                     startActivity(install);
